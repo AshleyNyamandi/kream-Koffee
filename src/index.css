@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  /* Buttons */
+  .btn-primary {
+    @apply bg-red-600 hover:bg-red-700 text-white font-medium px-6 py-3 rounded-full transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg hover:shadow-red-600/30 active:translate-y-0 flex items-center justify-center gap-2 cursor-pointer;
+  }
+
+  .btn-secondary {
+    @apply border-2 border-zinc-700 hover:border-white text-zinc-300 hover:text-white font-medium px-6 py-3 rounded-full transition-all duration-300 hover:bg-zinc-900/50 flex items-center justify-center gap-2 cursor-pointer;
+  }
+
+  .btn-outline-red {
+    @apply border border-red-600 text-red-500 hover:bg-red-600 hover:text-white font-medium px-4 py-2 rounded-full transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer text-sm;
+  }
+
+  /* Section Layouts */
+  .section-padding {
+    @apply py-20 md:py-28 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto;
+  }
+
+  .heading-accent {
+    @apply text-red-600 uppercase tracking-widest font-semibold text-sm mb-2 block;
+  }
+
+  .heading-main {
+    @apply text-3xl md:text-5xl font-bold text-white mb-6 font-serif tracking-tight;
+  }
+
+  .heading-sub {
+    @apply text-zinc-400 text-base md:text-lg max-w-2xl mx-auto leading-relaxed;
+  }
+
+  /* Cards & Containers */
+  .card-dark {
+    @apply bg-zinc-900/80 border border-zinc-800/80 rounded-2xl p-6 backdrop-blur-sm transition-all duration-300 hover:border-zinc-700 hover:shadow-xl hover:shadow-black/50;
+  }
+
+  .glass-nav {
+    @apply bg-zinc-950/80 backdrop-blur-md border-b border-zinc-800/60 sticky top-0 z-50 transition-all duration-300;
+  }
+
+  .input-field {
+    @apply w-full bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3 text-white placeholder-zinc-500 focus:outline-none focus:border-zinc-100 focus:ring-1 focus:ring-zinc-100 transition-all duration-200;
+  }
+}
