@@ -91,7 +91,7 @@ const Menu: React.FC = () => {
                         <span>{section.title}</span>
                       </h4>
                       <div className="divide-y divide-zinc-800/50">
-                        {section.items.map((item: (typeof FLYER_BOARDS)[number]['sections'][number]['items'][number], itemIdx) => (
+                        {section.items.map((item: (typeof FLYER_BOARDS)[number]['sections'][number]['items'][number], itemIdx: number) => (
                           <div key={itemIdx} className="py-2.5 flex justify-between items-start gap-4 hover:bg-zinc-800/30 px-2 rounded-lg transition-colors">
                             <div className="space-y-0.5">
                               <span className="text-sm font-semibold text-zinc-100 block">
