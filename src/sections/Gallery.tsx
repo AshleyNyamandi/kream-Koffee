@@ -56,7 +56,7 @@ const Gallery: React.FC = () => {
               {GALLERY_ITEMS.map((photo) => (
                 <div 
                   key={photo.id}
-                  className="group bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden cursor-pointer relative transition-all duration-300 hover:border-red-600/50 hover:shadow-xl w-72 flex-shrink-0"
+                  className="group bg-zinc-900 border border-zinc-800 rounded-2xl overflow-hidden cursor-pointer relative transition-all duration-300 hover:border-red-600/50 hover:shadow-xl w-72 shrink-0"
                 >
                   <div className="h-60 overflow-hidden relative">
                     <img 

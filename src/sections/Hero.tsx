@@ -1,4 +1,4 @@
-import { ChevronRight, MapPin, Phone, Sparkles, Utensils } from "lucide-react";
+import { ChevronRight, MapPin, Phone, Utensils } from "lucide-react";
 import { motion } from "framer-motion";
 import React from "react";
 import { container, item, statement } from "../constants/constants";

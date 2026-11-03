@@ -51,7 +51,7 @@ const Menu: React.FC = () => {
 
         {/* Display Digitized Flyer Boards */}
         <div className="space-y-16">
-          {filteredBoards.map((board) => (
+          {filteredBoards.map((board: (typeof FLYER_BOARDS)[number]) => (
             <div 
               key={board.id}
               className="bg-zinc-900/90 border-2 border-zinc-800 rounded-3xl p-6 sm:p-10 relative overflow-hidden shadow-2xl backdrop-blur-md"
@@ -84,14 +84,14 @@ const Menu: React.FC = () => {
                 
                 {/* Menu Text Content (Left Column) */}
                 <div className="lg:col-span-8 space-y-8">
-                  {board.sections.map((section, idx) => (
+                  {board.sections.map((section: (typeof FLYER_BOARDS)[number]['sections'][number], idx) => (
                     <div key={idx} className="space-y-3">
                       <h4 className="text-sm font-bold text-red-500 tracking-wider uppercase border-b border-zinc-800 pb-1.5 flex items-center gap-2">
                         <Utensils className="w-3.5 h-3.5" />
                         <span>{section.title}</span>
                       </h4>
                       <div className="divide-y divide-zinc-800/50">
-                        {section.items.map((item, itemIdx) => (
+                        {section.items.map((item: (typeof FLYER_BOARDS)[number]['sections'][number]['items'][number], itemIdx) => (
                           <div key={itemIdx} className="py-2.5 flex justify-between items-start gap-4 hover:bg-zinc-800/30 px-2 rounded-lg transition-colors">
                             <div className="space-y-0.5">
                               <span className="text-sm font-semibold text-zinc-100 block">
