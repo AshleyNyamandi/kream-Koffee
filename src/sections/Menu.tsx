@@ -1,148 +1,121 @@
-import { Sparkles, Utensils } from "lucide-react";
-import { useState } from "react";
-import { FLYER_BOARDS } from "../constants/constants";
+import { useState } from 'react';
+import { Download, ChevronDown } from 'lucide-react';
+import { MENU_CATEGORIES } from '../constants/constants';
 
-const Menu: React.FC = () => {
-  const [activeCategory, setActiveCategory] = useState<string>('all');
+export function Menu() {
+  const [openCategoryId, setOpenCategoryId] = useState<string | null>(null);
 
-  const filteredBoards = activeCategory === 'all' 
-    ? FLYER_BOARDS 
-    : FLYER_BOARDS.filter(b => b.category === activeCategory);
+  const toggleCategory = (id: string) => {
+    setOpenCategoryId((prev) => (prev === id ? null : id));
+  };
 
-  const categoryTabs = [
-    { id: 'all', label: 'All' },
-    { id: 'breakfast', label: 'Breakfast' },
-    { id: 'starters', label: 'Starters & Desserts' },
-    { id: 'mains', label: 'Lunch & Dinner' },
-    { id: 'platters', label: 'Platters & Specials' },
-    { id: 'bar_cocktails', label: 'Bar: Cocktails' },
-    { id: 'bar_drinks', label: 'Bar: Shakes & Mocktails' },
-  ];
+  const handleDownload = () => {
+    // Triggers direct menu document download
+    const link = document.createElement('a');
+    link.href = './gallery/KnK Oct 2026 Menu.pdf';
+    link.download = './gallery/KnK Oct 2026 Menu.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   return (
-    <section id="menu" className="bg-zinc-950 py-24 border-t border-zinc-900">
-      <div className="section-padding">
+    <section id="menu" className="py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto text-white">
+      {/* Top Header & Download Action Button */}
+      <div className="text-center space-y-4 mb-10">
+        <h2 className="text-3xl sm:text-4xl font-extrabold uppercase tracking-tight">
+          Kream Koffee Zimbabwe <span className="text-red-600">Menu</span>
+        </h2>
+        <p className="text-zinc-400 text-sm max-w-lg mx-auto font-light leading-relaxed">
+          Explore our complete food, beverage, traditional, and cocktail offerings below.
+        </p>
         
-        {/* Section Header */}
-        <div className="text-center mb-12">
-          <span className="heading-accent">Official Masvingo Menu</span>
-          <h2 className="heading-main">Kream Koffee Menu Boards</h2>
-          <p className="heading-sub">
-            Directly digitized from our restaurant flyer boards. Browse exact prices, breakfast sets, sharing platters, and bar drinks.
-          </p>
+        <div className="pt-2">
+          <button
+            onClick={handleDownload}
+            className="inline-flex items-center space-x-3 bg-red-600 hover:bg-red-700 text-white font-bold text-sm tracking-wider uppercase px-8 py-4 rounded-full shadow-lg shadow-red-600/30 transition-all hover:scale-105"
+          >
+            <Download className="w-5 h-5" />
+            <span>Download Menu</span>
+          </button>
         </div>
+      </div>
 
-        {/* Filter Buttons */}
-        <div className="flex flex-wrap justify-center gap-2 mb-12 bg-zinc-900/60 p-2 rounded-2xl border border-zinc-800">
-          {categoryTabs.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveCategory(tab.id)}
-              className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition-all duration-300 cursor-pointer ${
-                activeCategory === tab.id 
-                  ? 'bg-red-600 text-white shadow-lg shadow-red-600/30' 
-                  : 'text-zinc-400 hover:text-white hover:bg-zinc-800/80'
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
+      {/* Accordion Categories Container */}
+      <div className="space-y-4">
+        {MENU_CATEGORIES.map((category) => {
+          const isOpen = openCategoryId === category.id;
 
-        {/* Display Digitized Flyer Boards */}
-        <div className="space-y-16">
-          {filteredBoards.map((board: (typeof FLYER_BOARDS)[number]) => (
-            <div 
-              key={board.id}
-              className="bg-zinc-900/90 border-2 border-zinc-800 rounded-3xl p-6 sm:p-10 relative overflow-hidden shadow-2xl backdrop-blur-md"
+          return (
+            <div
+              key={category.id}
+              className="bg-zinc-900/80 border border-zinc-800 rounded-2xl overflow-hidden transition-colors"
             >
-              {/* Header Chalk/Grunge Style matching flyer */}
-              <div className="border-b-2 border-zinc-800 pb-6 mb-8 text-center md:text-left flex flex-col md:flex-row justify-between items-center gap-4">
-                <div>
-                  <div className="inline-block bg-zinc-950 border border-zinc-700 px-3 py-1 rounded-md mb-2">
-                    <span className="text-[11px] font-bold text-zinc-400 uppercase tracking-widest">
-                      KREAM KOFFEE ZIMBABWE
-                    </span>
+              {/* Category Header Button */}
+              <button
+                onClick={() => toggleCategory(category.id)}
+                className="w-full p-5 sm:p-6 flex items-center justify-between text-left hover:bg-zinc-800/50 transition-colors focus:outline-none"
+              >
+                <div className="flex items-center space-x-4">
+                  <div className="p-3 bg-zinc-950 rounded-xl border border-zinc-800">
+                    {category.icon}
                   </div>
-                  <h3 className="text-3xl sm:text-4xl font-extrabold font-serif text-white tracking-wider uppercase">
-                    MENU: <span className="text-red-500">{board.badgeTitle}</span>
-                  </h3>
-                  <p className="text-xs sm:text-sm text-zinc-400 mt-1">{board.subHeader}</p>
+                  <div>
+                    <h3 className="text-lg font-bold text-white uppercase tracking-wide">
+                      {category.title}
+                    </h3>
+                    <p className="text-xs text-zinc-400 font-light mt-0.5">
+                      {category.subtitle}
+                    </p>
+                  </div>
                 </div>
-                
-                <a 
-                  href={board.menu}
-                  download={board.menu}
-                  className="flex items-center gap-2 bg-zinc-950 border border-zinc-700 text-zinc-100 px-4 py-2 rounded-xl text-xs font-semibold cursor-pointer hover:border-zinc-100 hover:scale-101 transition-all duration-200">
-                  <Sparkles className="w-4 h-4 text-red-500" />
-                  <span>Download Menu</span>
-                </a>
-              </div>
 
-              {/* Main Board Layout: Items on Left, Flyer Photo Collage on Right */}
-              <div className="grid lg:grid-cols-12 gap-8 items-start">
-                
-                {/* Menu Text Content (Left Column) */}
-                <div className="lg:col-span-8 space-y-8">
-                  {board.sections.map((section: (typeof FLYER_BOARDS)[number]['sections'][number], idx) => (
-                    <div key={idx} className="space-y-3">
-                      <h4 className="text-sm font-bold text-red-500 tracking-wider uppercase border-b border-zinc-800 pb-1.5 flex items-center gap-2">
-                        <Utensils className="w-3.5 h-3.5" />
-                        <span>{section.title}</span>
-                      </h4>
-                      <div className="divide-y divide-zinc-800/50">
-                        {section.items.map((item: (typeof FLYER_BOARDS)[number]['sections'][number]['items'][number], itemIdx: number) => (
-                          <div key={itemIdx} className="py-2.5 flex justify-between items-start gap-4 hover:bg-zinc-800/30 px-2 rounded-lg transition-colors">
-                            <div className="space-y-0.5">
-                              <span className="text-sm font-semibold text-zinc-100 block">
-                                {item.name}
-                              </span>
-                              {item.desc && (
-                                <p className="text-xs text-zinc-400 leading-snug">{item.desc}</p>
-                              )}
-                            </div>
-                            <span className="text-sm font-bold text-zinc-100 font-mono shrink-0">
-                              {item.price}
+                <div className="flex items-center space-x-3">
+                  <span className="text-xs text-zinc-500 font-medium hidden sm:inline-block">
+                    {category.items.length} Items
+                  </span>
+                  <div className={`p-1.5 rounded-full bg-zinc-950 border border-zinc-800 transition-transform duration-300 ${isOpen ? 'rotate-180 text-red-500' : 'text-zinc-400'}`}>
+                    <ChevronDown className="w-5 h-5" />
+                  </div>
+                </div>
+              </button>
+
+              {/* Accordion Content Body */}
+              {isOpen && (
+                <div className="px-5 sm:px-6 pb-6 pt-2 border-t border-zinc-800/60 divide-y divide-zinc-800/40">
+                  {category.items.map((item, idx) => (
+                    <div key={idx} className="py-4 first:pt-2 last:pb-0 flex items-start justify-between gap-4">
+                      <div className="space-y-1">
+                        <div className="flex items-center space-x-2">
+                          <h4 className="text-sm sm:text-base font-bold text-white tracking-wide">
+                            {item.name}
+                          </h4>
+                          {item.tag && (
+                            <span className="bg-green-600/20 border border-green-500/40 text-zinc-100 text-[10px] font-bold uppercase px-2 py-0.5 rounded-md">
+                              {item.tag}
                             </span>
-                          </div>
-                        ))}
+                          )}
+                        </div>
+                        {item.description && (
+                          <p className="text-xs text-zinc-400 font-light leading-relaxed">
+                            {item.description}
+                          </p>
+                        )}
                       </div>
-                    </div>
-                  ))}
-                </div>
 
-                {/* Photos matching flyer style (Right Column) */}
-                <div className="lg:col-span-4 space-y-4">
-                  {board.images.map((img, imgIdx) => (
-                    <div key={imgIdx} className="rounded-2xl overflow-hidden border border-zinc-800 shadow-md group relative">
-                      <img 
-                        src={img.url} 
-                        alt={img.alt} 
-                        className="w-full h-48 sm:h-56 object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                      <div className="absolute inset-0 bg-linear-to-t from-zinc-950/80 via-transparent to-transparent" />
-                      <span className="absolute bottom-3 left-3 text-xs font-semibold text-white bg-zinc-950/80 backdrop-blur-sm px-2.5 py-1 rounded-md border border-zinc-800">
-                        {img.alt}
+                      <span className="text-base font-extrabold text-zinc-100 whitespace-nowrap">
+                        {item.price}
                       </span>
                     </div>
                   ))}
                 </div>
-
-              </div>
-
-              {/* Flyer Footer Stamp */}
-              <div className="mt-8 pt-4 border-t border-zinc-800 flex flex-col sm:flex-row justify-between items-center text-[11px] text-zinc-500 gap-2">
-                <span>📍 Number 2 Shuvai Mahofa St, Opposite Passport Offices, Masvingo</span>
-                <span className="font-mono">📞 +263 787 575 393 / +263 788 114 205</span>
-              </div>
-
+              )}
             </div>
-          ))}
-        </div>
-
+          );
+        })}
       </div>
     </section>
   );
-};
+}
 
 export default Menu;

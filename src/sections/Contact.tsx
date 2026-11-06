@@ -1,17 +1,60 @@
-import { CheckCircle, Clock, MapPin, Phone, Send } from "lucide-react";
+import { CheckCircle, Clock, MapPin, Phone, Send, AlertCircle } from "lucide-react";
 import { useState } from "react";
 
 const Contact: React.FC = () => {
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({ name: '', email: '', subject: '', message: '' });
-    }, 4000);
+    setIsLoading(true);
+    setErrorMessage("");
+
+    try {
+      const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
+
+      if (!accessKey) {
+        throw new Error(
+          "Web3Forms configuration is missing. Please check your environment variables."
+        );
+      }
+
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: accessKey,
+          name: formData.name,
+          email: formData.email,
+          subject: formData.subject,
+          message: formData.message,
+        }),
+      });
+
+      const result = await response.json();
+
+      if (!result.success) {
+        throw new Error(result.message || "Failed to send message.");
+      }
+
+      setSubmitted(true);
+      setTimeout(() => {
+        setSubmitted(false);
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      }, 4000);
+    } catch (error) {
+      console.error("Web3Forms error:", error);
+      setErrorMessage(
+        (error as Error).message || "Failed to send message. Please try again later."
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -50,8 +93,8 @@ const Contact: React.FC = () => {
                   </div>
                   <div>
                     <h4 className="text-white text-sm font-semibold">Phone & Inquiries</h4>
-                    <p className="text-zinc-400 text-sm">+263 787 575 392</p>
-                    <p className="text-zinc-400 text-sm">+263 788 114 205</p>
+                    <p className="text-zinc-400 text-sm">+263 787 575 393</p>
+                    <p className="text-zinc-400 text-sm">+263 772 979 815</p>
                   </div>
                 </div>
 
@@ -135,9 +178,20 @@ const Contact: React.FC = () => {
                     />
                   </div>
 
-                  <button type="submit" className={`btn-primary w-full mt-2 py-4`}>
+                  {errorMessage && (
+                    <div className="flex items-center gap-3 p-4 rounded-xl bg-red-950/40 border border-red-800/60 text-red-300">
+                      <AlertCircle className="w-5 h-5 shrink-0" />
+                      <p className="text-sm">{errorMessage}</p>
+                    </div>
+                  )}
+
+                  <button
+                    type="submit"
+                    disabled={isLoading}
+                    className={`btn-primary w-full mt-2 py-4 ${isLoading ? 'opacity-60 cursor-not-allowed' : ''}`}
+                  >
                     <Send className="w-5 h-5" />
-                    <span>Send Message</span>
+                    <span>{isLoading ? 'Sending...' : 'Send Message'}</span>
                   </button>
                 </form>
               )}

@@ -72,7 +72,7 @@ const Hero: React.FC = () => {
             <div className="flex items-center gap-3 pt-1 border-t border-zinc-800/80">
               <Phone className="w-4 h-4 bg-inherit text-zinc-100 shrink-0" />
               <p className="text-xs sm:text-sm text-zinc-300 font-mono">
-                +263 787 575 393 &nbsp;|&nbsp; +263 788 114 205
+                +263 787 575 393 &nbsp;|&nbsp; +263 772 979 815
               </p>
             </div>
           </motion.div>
