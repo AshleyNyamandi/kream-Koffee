@@ -13,7 +13,7 @@ export function Menu() {
     // Triggers direct menu document download
     const link = document.createElement('a');
     link.href = './gallery/KnK Oct 2026 Menu.pdf';
-    link.download = './gallery/KnK Oct 2026 Menu.pdf';
+    link.download = 'KnK Oct 2026 Menu.pdf';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -33,7 +33,7 @@ export function Menu() {
         <div className="pt-2">
           <button
             onClick={handleDownload}
-            className="inline-flex items-center space-x-3 bg-red-600 hover:bg-red-700 text-white font-bold text-sm tracking-wider uppercase px-8 py-4 rounded-full shadow-lg shadow-red-600/30 transition-all hover:scale-105"
+            className="cursor-pointer inline-flex items-center space-x-3 bg-red-600 hover:bg-red-700 text-white font-bold text-sm tracking-wider uppercase px-8 py-4 rounded-full shadow-lg shadow-red-600/30 transition-all hover:scale-105"
           >
             <Download className="w-5 h-5" />
             <span>Download Menu</span>
