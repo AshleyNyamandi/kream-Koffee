@@ -13,11 +13,11 @@ const Contact: React.FC = () => {
     setErrorMessage("");
 
     try {
-      const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
+      const accessKey = "b81b7684-6e47-46ac-a588-27bf7d9b0116";
 
       if (!accessKey) {
         throw new Error(
-          "Web3Forms configuration is missing. Please check your environment variables."
+          "Something went wrong while sending"
         );
       }
 

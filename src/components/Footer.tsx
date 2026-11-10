@@ -81,6 +81,7 @@ const Footer: React.FC = () => {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-zinc-900 flex flex-col sm:flex-row items-center justify-between text-xs text-zinc-500 gap-4">
           <p>© {new Date().getFullYear()} Kream Koffee Zimbabwe. All Rights Reserved.</p>
+           <a href="https://www.ashleynymd.co.zw" className="hover:text-zinc-400">Website done by <span className="text-blue-500">Ashley</span></a>
           <div className="flex gap-6">
             <a href="#" className="hover:text-zinc-400">Privacy Policy</a>
             <a href="#" className="hover:text-zinc-400">Terms of Service</a>
